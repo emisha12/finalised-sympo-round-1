@@ -1,9 +1,6 @@
 
 <?php 
 require 'config.php';
-
-//$_SESSION['NAME']= $name;
-//$_SESSION['id'] = mysql_insert_id();
 if(!empty($_SESSION['NAME'])){
 
 ?>
@@ -23,7 +20,7 @@ if(!empty($_SESSION['NAME'])){
 		<script src="./js/countdown.js"></script>
 		<style>
 			.container {
-				margin-top: 110px;
+				margin-top: 50px;
 			}
 			.error {
 				color: #B94A48;
@@ -51,33 +48,23 @@ if(!empty($_SESSION['NAME'])){
                               background-repeat: no-repeat;
                           
                             }
-                            
-                           /* #question_area {
-                                top: 5%;
-                                left: 30%;
-                                padding: 4%;
-                                 height: auto;
-                                 width: 40%;
-                                box-sizing: border-box;
-                                opacity: 0.8;
-                                position: absolute;
-                                z-index: 2;
-                                right: 30%;
-                             }*/
                              .q{
                                  font-family: "Times new roman";
-                                 font-size: 25px;
+                                 font-size: 23px;
                              }
                              
-                             
+                             input[type=radio]{
+                                 display:inline;   
+                                 transform: scale(1.5);
+                             }
 		</style>
 	</head>
-	<body>
+        <body onkeydown="="return showKeyCode(event)">
           
 	    <div class='header container-fluid'>
      <div class="navbar navbar-inverse">
-         <div class="navbar-header">
-            <h2 class="text-center navbar-text">
+         <div class="navbar-header nav-justified" >
+             <h2 class="navbar-text" >
                 Welcome : <?php if(!empty($_SESSION['NAME'])){echo $_SESSION['NAME'];}?>
             </h2>
          </div>
@@ -86,7 +73,7 @@ if(!empty($_SESSION['NAME'])){
         <div id='timer'>
             <script type="application/javascript">
             var myCountdownTest = new Countdown({
-                                    time: 2700, 
+                                    time: 1800, 
                                     width:200, 
                                     height:80, 
                                     rangeHi:"minute"
@@ -100,7 +87,13 @@ if(!empty($_SESSION['NAME'])){
 			<div class="col-xs-12 col-sm-8 col-md-8 col-xs-offset-4 col-sm-offset-3 col-md-offset-3">
                             <form class="form-horizontal" role="form" id='login' method="post" action="final.php">
 					<?php 
-					$res ="select * from questions ORDER BY RAND()";
+                                        if($_SESSION['SET']==1){
+                                            $res ="select * from set1 ORDER BY RAND()";
+                                        }else if($_SESSION['SET']==2){
+                                            $res ="select * from set2 ORDER BY RAND()";
+                                        }else{
+                                            $res ="select * from set3 ORDER BY RAND()";
+                                        }
                                          $result=$conn->query($res);
                                         $row_count = $result->num_rows;
                                         
@@ -113,18 +106,19 @@ if(!empty($_SESSION['NAME'])){
                     <?php if($i==1){?>
                                      <p id='ques_no<?php echo $i;?>' class='q qn' >
 			Question : <?php echo $i; ?> / <?php echo $row_count; ?>
-                                     </p><hr id='hr__<?php echo $i;?>' class='h'>
+                                     </p><hr id='hr_<?php echo $i;?>' class='h'>
               
                     <div id='question<?php echo $i;?>' class='cont'>
-                        <p  class='questions' style="font-size:25px;font-family: 'Times new roman'" id="qname<?php echo $i;?>"> <?php echo $i?>.<?php echo $rows['question_name'];?></p>
-                        <input  type="radio" value="<?php echo $rows['answer1'];?>" id='radio1_<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label style=' font-size: 25px;font-family: "Times new roman";'><?php echo $rows['answer1'];?></label>
-                   <br/>
-                   <input  type="radio" value="<?php echo $rows['answer2'];?>" id='radio1_<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label style=' font-size: 25px;font-family: "Times new roman";'><?php echo $rows['answer2'];?></label>
-                    <br/>
-                    <input  type="radio" value="<?php echo $rows['answer3'];?>" id='radio1_<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label style=' font-size: 25px;font-family: "Times new roman";'><?php echo $rows['answer3'];?></label>
-                    <br/>
-                    <input  type="radio" value="<?php echo $rows['answer4'];?>" id='radio1_<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label style=' font-size: 25px;font-family: "Times new roman";'><?php echo $rows['answer4'];?></label>
-                    <br/>
+                        <b><p  class='questions' style="font-size:23px;font-family: 'Times new roman'" id="qname<?php echo $i;?>"> <?php echo $i?>.<?php echo $rows['question_name'];?></p></b>
+                     <div class="radio">
+                         <input  type="radio" value="<?php echo $rows['answer1'];?>" id='radio1_<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label  style=' font-size: 23px;font-family: "Times new roman";'><?php echo $rows['answer1'];?></label>
+                     </div><br/><div class="radio">
+                   <input  type="radio" class="btn" value="<?php echo $rows['answer2'];?>" id='radio1_<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label  style=' font-size: 23px;font-family: "Times new roman";'><?php echo $rows['answer2'];?></label>
+                     </div><br/><div class="radio">
+                    <input  type="radio" value="<?php echo $rows['answer3'];?>" id='radio1_<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label  style=' font-size: 23px;font-family: "Times new roman";'><?php echo $rows['answer3'];?></label>
+                    </div><br/><div class="radio">
+                    <input  type="radio" value="<?php echo $rows['answer4'];?>" id='radio1_<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label  style=' font-size: 23px;font-family: "Times new roman";'><?php echo $rows['answer4'];?></label>
+                    </div><br/>
                     <input type="radio" checked='checked' style='display:none' value="5" id='radio1_<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/>                                                                      
                     <br/>
                     <button id='<?php echo $i;?>' class='next btn btn-primary' type='button' name="Next" style="float:right">Next</button>
@@ -134,17 +128,18 @@ if(!empty($_SESSION['NAME'])){
                     
                       <p id='ques_no<?php echo $i;?>' class='q qn'>
 			Question : <?php echo $i; ?> / <?php echo $row_count; ?>
-                    </p><hr id='hr_<?php echo $i;?>' class='h'>
+                          </p><hr id='hr_<?php echo $i;?>' class='h'>
                        <div id='question<?php echo $i;?>' class='cont'>
-                    <p class='questions' style="font-size:25px; font-family: 'Times new roman'" id="qname<?php echo $i;?>"><?php echo $i?>.<?php echo $rows['question_name'];?></p>
-                    <input type="radio" value="<?php echo $rows['answer1'];?>"  id=' radio1_<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label style=' font-size: 25px;font-family: "Times new roman";'><?php echo $rows['answer1'];?></label>
-                    <br/>
-                    <input type="radio" value="<?php echo $rows['answer2'];?>" id='radio1_<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label style=' font-size: 25px;font-family: "Times new roman";'><?php echo $rows['answer2'];?></label>
-                    <br/>
-                    <input type="radio" value="<?php echo $rows['answer3'];?>" id=' radio1_<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label style=' font-size: 25px;font-family: "Times new roman";'><?php echo $rows['answer3'];?></label>
-                    <br/>
-                    <input type="radio" value="<?php echo $rows['answer4'];?>" id='radio1_<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label style=' font-size: 25px;font-family: "Times new roman";'><?php echo $rows['answer4'];?></label>
-                    <br/>
+                           <b><p class='questions' style="font-size:23px; font-family: 'Times new roman'" id="qname<?php echo $i;?>"><?php echo $i?>.<?php echo $rows['question_name'];?></p></b>
+                    <div class="radio">
+                    <input type="radio" value="<?php echo $rows['answer1'];?>"  id=' radio1_<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label style=' font-size: 23px;font-family: "Times new roman";'><?php echo $rows['answer1'];?></label>
+                    </div><br/><div class="radio">
+                    <input type="radio" value="<?php echo $rows['answer2'];?>" id='radio1_<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label style=' font-size: 23px;font-family: "Times new roman";'><?php echo $rows['answer2'];?></label>
+                    </div><br/><div class="radio">
+                    <input type="radio" value="<?php echo $rows['answer3'];?>" id=' radio1_<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label style=' font-size: 23px;font-family: "Times new roman";'><?php echo $rows['answer3'];?></label>
+                    </div><br/><div class="radio">
+                    <input type="radio" value="<?php echo $rows['answer4'];?>" id='radio1_<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label style=' font-size: 23px;font-family: "Times new roman";'><?php echo $rows['answer4'];?></label>
+                    </div><br/>
                     <input type="radio" checked='checked' style='display:none' value="5" id='radio1_<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/>                                                                      
                     <br/>
                     <button id='<?php echo $i;?>' class='previous btn btn-primary' type='button'>Previous</button>                    
@@ -154,17 +149,18 @@ if(!empty($_SESSION['NAME'])){
                    <?php }else{?>
                     <p id='ques_no<?php echo $i;?>' class='q qn'>
 			Question : <?php echo $i; ?> / <?php echo $row_count; ?>
-                    </p><hr id='hr_<?php echo $i;?>' class='h'>
+                        </p><hr id='hr_<?php echo $i;?>' class='h'>
                     <div id='question<?php echo $i;?>' class='cont'>
-                    <p class='questions' style="font-size:25px; font-family: 'Times new roman'" id="qname<?php echo $i;?>"><?php echo $i?>.<?php echo $rows['question_name'];?></p>
-                    <input type="radio" value="<?php echo $rows['answer1'];?>" id='<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label style=' font-size: 25px;font-family: "Times new roman";'><?php echo $rows['answer1'];?></label>
-                    <br/>
-                    <input type="radio" value="<?php echo $rows['answer2'];?>" id='<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label style=' font-size: 25px;font-family: "Times new roman";'><?php echo $rows['answer2'];?></label>
-                    <br/>
-                    <input type="radio" value="<?php echo $rows['answer3'];?>" id='<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label style=' font-size: 25px;font-family: "Times new roman";'><?php echo $rows['answer3'];?></label>
-                    <br/>
-                    <input type="radio" value="<?php echo $rows['answer4'];?>" id='<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label style=' font-size: 25px;font-family: "Times new roman";'><?php echo $rows['answer4'];?></label>
-                    <br/>
+                        <b><p class='questions' style="font-size:23px; font-family: 'Times new roman'" id="qname<?php echo $i;?>"><?php echo $i?>.<?php echo $rows['question_name'];?></p></b>
+                    <div class="radio">
+                    <input type="radio" value="<?php echo $rows['answer1'];?>" id='<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label style=' font-size: 23px;font-family: "Times new roman";'><?php echo $rows['answer1'];?></label>
+                    </div><br/><div class="radio">
+                    <input type="radio" value="<?php echo $rows['answer2'];?>" id='<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label  style=' font-size: 23px;font-family: "Times new roman";'><?php echo $rows['answer2'];?></label>
+                    </div><br/><div class="radio">
+                    <input type="radio" value="<?php echo $rows['answer3'];?>" id='<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label  style=' font-size: 23px;font-family: "Times new roman";'><?php echo $rows['answer3'];?></label>
+                    </div><br/><div class="radio">
+                    <input type="radio" value="<?php echo $rows['answer4'];?>" id='<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/><label  style=' font-size: 23px;font-family: "Times new roman";'><?php echo $rows['answer4'];?></label>
+                    </div><br/>
                     <input type="radio" checked='checked' style='display:none' value="5" id='<?php echo $rows['id'];?>' name='<?php echo $rows['id'];?>'/>                                                                      
                     <br/>
                     
@@ -229,10 +225,49 @@ if(!empty($_SESSION['NAME'])){
             
          setTimeout(function() {
              $("form").submit();
-          }, 2700000);
-          $(window).focus(function() {
-    $("form").submit();//do something
+          }, 1800000);
+    $(window).focus(function() {
+  $("form").submit();//do something
 });
+
+
+    (function (global) { 
+
+    if(typeof (global) === "undefined") {
+        throw new Error("window is undefined");
+    }
+
+    var _hash = "!";
+    var noBackPlease = function () {
+        global.location.href += "#";
+
+      
+        global.setTimeout(function () {
+            global.location.href += "!";
+        }, 50);
+    };
+
+    global.onhashchange = function () {
+        if (global.location.hash !== _hash) {
+            global.location.hash = _hash;
+        }
+    };
+
+    global.onload = function () {            
+        noBackPlease();
+        // disables backspace on page except on input fields and textarea..
+        document.body.onkeydown = function (e) {
+            var elm = e.target.nodeName.toLowerCase();
+            if (e.which === 8 && (elm !== 'input' && elm  !== 'textarea')||(e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) {
+                e.preventDefault();
+            }
+            // stopping event bubbling up the DOM tree..
+            e.stopPropagation();
+        };          
+    }
+
+})(window);
+
 		</script>
 	</body>
 </html>

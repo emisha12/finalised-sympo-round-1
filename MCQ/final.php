@@ -12,10 +12,13 @@ if(!empty($_SESSION['NAME'])){
     $right_answer=0;
     $wrong_answer=0;
     $unanswered=0; 
-  
-   
-   
-    $response="select id,answer from questions";
+    if($_SESSION['SET']==1){
+         $response="select id,answer from set1";
+    }else if($_SESSION['SET']==2){
+         $response="select id,answer from set2";
+    }else{
+         $response="select id,answer from set3";
+    }
    $respo=$conn->query($response);
    while($result=$respo->fetch_assoc()){
             if($result['answer']==$_POST[$result['id']]){
@@ -65,7 +68,46 @@ $sum=$conn->query($summary);
         <div class='ins_border' >
             <center>Thank you for taking the test!!!<br><br><br>Results will be shared shortly.</center>
         </div>
-   
+        <script>
+             (function (global) { 
+
+    if(typeof (global) === "undefined") {
+        throw new Error("window is undefined");
+    }
+
+    var _hash = "!";
+    var noBackPlease = function () {
+        global.location.href += "#";
+
+      
+        global.setTimeout(function () {
+            global.location.href += "!";
+        }, 50);
+    };
+
+    global.onhashchange = function () {
+        if (global.location.hash !== _hash) {
+            global.location.hash = _hash;
+        }
+    };
+
+    global.onload = function () {            
+        noBackPlease();
+		
+        // disables backspace on page except on input fields and textarea..
+        document.body.onkeydown = function (e) {
+            var elm = e.target.nodeName.toLowerCase();
+            if (e.which === 8 && (elm !== 'input' && elm  !== 'textarea')||(e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) {
+                e.preventDefault();
+            }
+            // stopping event bubbling up the DOM tree..
+            e.stopPropagation();
+        };          
+    }
+
+})(window);
+
+		</script>
     </body>
 </html>
 <?php } ?>

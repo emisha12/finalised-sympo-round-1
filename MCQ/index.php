@@ -124,6 +124,16 @@ img{
 p{
     font-family: "Times new roman";
 }
+select:required:invalid {
+    color: grey; 
+}
+
+option[value=""][disabled] {
+  display: none;
+}
+option {
+  color: black;
+}
 </style>
 <body>
 <?php
@@ -138,7 +148,7 @@ p{
         <h1 class="navbar-text text-center">Hydelineate</h1>
          </div>
      </div>
-    <!--<img src="pictures/imageedit_1_4521759290.png" >-->
+   
     </div>
 
     <div class="panel panel-default" id="search_area">
@@ -147,11 +157,11 @@ p{
         <h4>Round - 1</h4>
         <div class="input-container">
             <i class="fa fa-user icon"></i>
-            <input class="input-field" type="text" placeholder="Username" name="usrnm" autocomplete="off" required>
+            <input class="input-field" type="text" placeholder="Team leader name" name="usrnm" autocomplete="off" required>
         </div>
         <div class="input-container">
             <i class="fa fa-phone icon"></i>
-            <input class="input-field" type="text" placeholder="Phone_no"  name="phone" autocomplete="off" required>
+            <input class="input-field" type="text" placeholder="Phone number"  name="phone" autocomplete="off" maxlength="10" required>
         </div>
         <div class="input-container">
             <i class="fa fa-bank icon"></i>
@@ -159,7 +169,8 @@ p{
         </div>
         <div class="input-container">
             <i class="fa fa-bookmark icon"></i>
-            <select class="input-field" name="yr" required >
+            <select class="input-field" name="yr" required>
+                 <option value="" disabled="disabled" selected="true">--Choose year--</option>
                 <option value="I">I</option>
                 <option value="II">II</option>
                 <option value="III">III</option>
@@ -169,11 +180,22 @@ p{
         <div class="input-container">
             <i class="fa fa-graduation-cap icon"></i>
             <select class="input-field" name="dept" required>
+                 <option value="" disabled="disabled" selected="true">--Choose Department--</option>
                 <option value="IT">IT</option>
                 <option value="CSE">CSE</option>
                 <option value="ECE">ECE</option>
                 <option value="EIE">EIE</option>
-                <option value=EEE">EEE</option>
+                <option value="EEE">EEE</option>
+                <option value="Others">Others</option>
+            </select>
+        </div>
+        <div class="input-container">
+            <i class="fa fa-file-text icon"></i>
+            <select class="input-field" name="set" required>
+                <option value="" disabled="disabled" selected="true">--Choose Set--</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
             </select>
         </div>
 <div>
